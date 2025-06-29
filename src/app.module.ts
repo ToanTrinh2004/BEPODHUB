@@ -6,6 +6,8 @@ import { MongooseModule } from '@nestjs/mongoose'
 import { UsersModule } from './users/users.module';
 import { FavouriteModule } from './favourite/favourite.module';
 import { PodcastModule } from './podcast/podcast.module';
+import { ArtistModule } from './artist/artist.module';
+import { PlaylistModule } from './playlist/playlist.module';
 
 @Module({
   imports: [
@@ -26,6 +28,8 @@ import { PodcastModule } from './podcast/podcast.module';
     UsersModule,
     FavouriteModule,
     PodcastModule,
+    ArtistModule,
+    PlaylistModule,
     
   ],
   controllers: [AppController],
