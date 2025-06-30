@@ -9,12 +9,13 @@ export class ArtistController {
 
   @Post()
   create(@Body() createArtistDto: CreateArtistDto) {
-    return this.artistService.create(createArtistDto);
+    return this.artistService.createArtist(createArtistDto);
   }
 
   @Get()
   findAll() {
-    return this.artistService.findAll();
+    return this.artistService.getAllArtists();
+    // return this.artistService.findAll();
   }
 
   @Get(':id')

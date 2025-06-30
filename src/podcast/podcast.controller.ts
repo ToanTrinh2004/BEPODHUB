@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { PodcastService } from './podcast.service';
 import { CreatePodcastDto } from './dto/create-podcast.dto';
 import { UpdatePodcastDto } from './dto/update-podcast.dto';
+import { Podcast } from 'src/schema/podcast.schema';
 
 @Controller('podcast')
 export class PodcastController {
@@ -11,10 +12,13 @@ export class PodcastController {
   create(@Body() createPodcastDto: CreatePodcastDto) {
     return this.podcastService.create(createPodcastDto);
   }
-  @Get('p')
-async getPodcasts() {
-  return this.podcastService.getPodcastsWithEpisodes();
-}
+  @Get('category')
+  async getPodcasts(
+    @Query('term') term: string = 'pride',
+    @Query('limit') limit: number = 5,
+  ): Promise<Podcast[]> {
+    return this.podcastService.getPodcastsWithEpisodes(term, limit);
+  }
 
   @Get()
   findAll() {

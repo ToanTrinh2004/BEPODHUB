@@ -45,6 +45,32 @@ export class UsersService {
     }
   }
 
+  async login(createUserDto: CreateUserDto): Promise<{ message: string }> {
+    try {
+      const { uuid } = createUserDto;
+  
+      let user = await this.userModel.findOne({ uuid });
+  
+      if (!user) {
+        await this.create(createUserDto);
+        return { message: 'Register successful' };
+      }
+  
+      return { message: 'Login successful' };
+    } catch (error) {
+      console.error('Error logging in user:', error);
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: 'Failed to login user',
+          error: error.message,
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+  
+
   findAll() {
     return `This action returns all users`;
   }

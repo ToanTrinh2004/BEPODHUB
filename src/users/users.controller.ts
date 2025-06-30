@@ -18,12 +18,13 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UsersController {
   constructor(private readonly usersService: UsersService) { }
 
-  @Post()
-  @HttpCode(201)
+  @Post('login')
+  @HttpCode(200)
   @UsePipes(new ValidationPipe({ whitelist: true }))
-  async create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  async login(@Body() createUserDto: CreateUserDto) {
+    return this.usersService.login(createUserDto);
   }
+  
 
 
   @Get()

@@ -83,4 +83,15 @@ export class ArtistService {
     }
     return artist;
   }
+  async getAllArtists(): Promise<Artist[]> {
+    const artists = await this.artistModel.find().lean();
+    if (!artists || artists.length === 0) {
+      throw new NotFoundException('No artists found');
+    }
+    return artists;
+  }
+  createArtist(createArtistDto: CreateArtistDto): Promise<Artist> {
+    const newArtist = new this.artistModel(createArtistDto);
+    return newArtist.save();
+  }
 }
