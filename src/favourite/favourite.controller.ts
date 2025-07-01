@@ -1,34 +1,59 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { FavouriteService } from './favourite.service';
 import { CreateFavouriteDto } from './dto/create-favourite.dto';
-import { UpdateFavouriteDto } from './dto/update-favourite.dto';
 
 @Controller('favourite')
 export class FavouriteController {
   constructor(private readonly favouriteService: FavouriteService) {}
 
-  @Post()
-  create(@Body() createFavouriteDto: CreateFavouriteDto) {
-    return this.favouriteService.create(createFavouriteDto);
+  /**
+   * Adds artists and categories to the user's favourites.
+   * @param uuid - User UUID
+   * @param dto - Data Transfer Object containing artists and categories
+   */
+  @Post('collect/:uuid')
+  async collectFavourite(
+    @Param('uuid') uuid: string,
+    @Body() dto: CreateFavouriteDto
+  ) {
+    const res = this.favouriteService.collectFavourite(uuid, dto);
+    return {
+      message : 'Favourite updated successfully',
+    }
   }
 
-  @Get()
-  findAll() {
-    return this.favouriteService.findAll();
+  /**
+   * Fetches suggested podcasts based on the user's favourites.
+   * @param uuid - User UUID
+   */
+  @Get('/suggest/:uuid')
+  async getSuggestedPodcasts(@Param('uuid') uuid: string) {
+    return this.favouriteService.getSuggestedPodcasts(uuid);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.favouriteService.findOne(+id);
+  /**
+   * Adds or removes a podcast from the user's favourites.
+   * @param uuid - User UUID
+   * @param trackId - Podcast track ID
+   */
+  @Post('/podcast/:uuid/:trackId')
+  async addPodcastToFavourite(
+    @Param('uuid') uuid: string,
+    @Param('trackId') trackId: number
+  ) {
+    return this.favouriteService.addPodcastToFavourite(uuid, trackId);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFavouriteDto: UpdateFavouriteDto) {
-    return this.favouriteService.update(+id, updateFavouriteDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.favouriteService.remove(+id);
+  /**
+   * Checks if a podcast is in the user's favourites.
+   * @param uuid - User UUID
+   * @param trackId - Podcast track ID
+   */
+  @Get('/check/:uuid/:trackId')
+  async checkPodcastInFavourite(
+    @Param('uuid') uuid: string,
+    @Param('trackId') trackId: number
+  ) {
+    return this.favouriteService.checkPodcastInFavourite(uuid, trackId);
   }
 }

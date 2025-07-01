@@ -13,8 +13,7 @@ export class Favourite extends Document {
   @Prop({ type: [Number], default: [] })
   category: number[];
 
-  @Prop({ type: [Number], default: [] })
-  albums: number[];
+  
 }
 
 export const FavouriteSchema = SchemaFactory.createForClass(Favourite);
