@@ -17,19 +17,17 @@ export class ArtistController {
     return this.artistService.getAllArtists();
     // return this.artistService.findAll();
   }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.artistService.findOne(+id);
+  @Get(':artistId')
+  getAllPodCastByArtistId(@Param('artistId') artistId: number) {
+    return this.artistService.getAllPodCastByArtistId(artistId);
   }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateArtistDto: UpdateArtistDto) {
-    return this.artistService.update(+id, updateArtistDto);
+  @Get('favourite/:uuid')
+  getAllFavouriteArtists(@Param('uuid') uuid: string) {
+    return this.artistService.getAllFavouriteArtists(uuid);
   }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.artistService.remove(+id);
+  @Get('info/:artistId')
+  getInfoArtist(@Param('artistId') artistId: number) {
+    return this.artistService.getInfoArtist(artistId);
   }
+  
 }
