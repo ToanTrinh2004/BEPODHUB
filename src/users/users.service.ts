@@ -19,7 +19,6 @@ export class UsersService {
         podCasts: [],
         artists: [],
         category: [],
-        albums: [],
       });
 
       const userData = {
@@ -45,7 +44,7 @@ export class UsersService {
     }
   }
 
-  async login(createUserDto: CreateUserDto): Promise<{ message: string }> {
+  async login(createUserDto: CreateUserDto): Promise<{ message: boolean }> {
     try {
       const { uuid } = createUserDto;
   
@@ -53,16 +52,16 @@ export class UsersService {
   
       if (!user) {
         await this.create(createUserDto);
-        return { message: 'Register successful' };
+        return { message: true };
       }
   
-      return { message: 'Login successful' };
+      return { message: false };
     } catch (error) {
       console.error('Error logging in user:', error);
       throw new HttpException(
         {
           statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-          message: 'Failed to login user',
+          message: null,
           error: error.message,
         },
         HttpStatus.INTERNAL_SERVER_ERROR,

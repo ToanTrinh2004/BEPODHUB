@@ -15,8 +15,9 @@ export class Playlist {
   @Prop()
   image: string;
 
-  @Prop({ type: [Types.ObjectId], ref: 'Podcast', default: [] })
-  podCasts: Types.ObjectId[]; // References to Podcast documents
+  @Prop({ type: [Number], default: [] })
+  podCasts: number[]; 
+
 }
 
 export const PlaylistSchema = SchemaFactory.createForClass(Playlist);

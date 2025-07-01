@@ -19,6 +19,20 @@ export class PodcastController {
   ): Promise<Podcast[]> {
     return this.podcastService.getPodcastsWithEpisodes(term, limit);
   }
+  @Get('episodes')
+async getEpisodesByFeedUrl(@Query('feedUrl') feedUrl: string): Promise<any[]> {
+  if (!feedUrl) {
+    throw new Error('Feed URL is required');
+  }
+
+  const episodes = await this.podcastService.getEpisodesByFeedUrl(feedUrl);
+  if (!episodes || episodes.length === 0) {
+    throw new Error('No episodes found for the provided feed URL');
+  }
+
+  return episodes; 
+}
+
 
   @Get()
   findAll() {
@@ -39,4 +53,12 @@ export class PodcastController {
   remove(@Param('id') id: string) {
     return this.podcastService.remove(+id);
   }
+  @Get('single/:id')
+  getPodcastById(@Param('id') id: number): Promise<Podcast> {
+    return this.podcastService.getPodcastById(id);}
+  @Get('favourite/:uuid')
+  getAllFavouritePodcasts(@Param('uuid') uuid: string) {
+    return this.podcastService.getAllFavouritePodcasts(uuid);
+  }
+
 }
