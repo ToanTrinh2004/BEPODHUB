@@ -56,4 +56,29 @@ export class FavouriteController {
   ) {
     return this.favouriteService.checkPodcastInFavourite(uuid, trackId);
   }
+  /**
+   * Adds or removes an artist from the user's favourites.
+   * @param uuid - User UUID
+   * @param artistId - Artist ID
+   */
+  @Post('/artist/:uuid/:artistId')
+  async addArtistToFavourite(
+    @Param('uuid') uuid: string,
+    @Param('artistId') artistId: number
+  ) {
+    return this.favouriteService.addArtistToFavourite(uuid, artistId);
+  }
+
+  /**
+   * Checks if an artist is in the user's favourites.
+   * @param uuid - User UUID
+   * @param artistId - Artist ID
+   */
+  @Get('/check/artist/:uuid/:artistId')
+  async checkArtistInFavourite(
+    @Param('uuid') uuid: string,
+    @Param('artistId') artistId: number
+  ) {
+    return this.favouriteService.checkArtistInFavourite(uuid, artistId);
+  }
 }

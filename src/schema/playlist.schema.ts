@@ -7,7 +7,7 @@ export type PlaylistDocument = Playlist & Document;
 @Schema({ timestamps: true })
 export class Playlist {
   @Prop({ required: true, unique: true })
-  playlistId: string;
+  uuid: string;
 
   @Prop({ required: true })
   name: string;

@@ -15,5 +15,6 @@ import { MongooseModule } from '@nestjs/mongoose/dist/mongoose.module';
   ],
   controllers: [PodcastController],
   providers: [PodcastService],
+  exports: [PodcastService],
 })
 export class PodcastModule {}

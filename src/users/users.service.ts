@@ -5,6 +5,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User} from 'src/schema/users.chema';
 import { Model } from 'mongoose';
 import { Favourite } from 'src/schema/favourite.chema';
+import { History } from 'src/schema/history.schema';
 
 @Injectable()
 export class UsersService {
@@ -12,6 +13,8 @@ export class UsersService {
     @InjectModel(User.name) private readonly userModel: Model<User>,
     @InjectModel(Favourite.name)
     private readonly favouriteModel: Model<Favourite>,
+    @InjectModel(History.name)
+    private readonly historyModel: Model<History>,
   ) {}
   async create(createUserDto: CreateUserDto): Promise<{ message: string }> {
     try {
@@ -27,6 +30,12 @@ export class UsersService {
         histories: [],
         favourite: newFavourite._id,
       };
+      const newHistory = await this.historyModel.create( {
+        uuid: createUserDto.uuid,
+        podCasts: [],
+        recentPlayed: [],
+        episodeIndex: [],
+      });
 
       await this.userModel.create(userData);
 

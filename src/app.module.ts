@@ -8,6 +8,8 @@ import { FavouriteModule } from './favourite/favourite.module';
 import { PodcastModule } from './podcast/podcast.module';
 import { ArtistModule } from './artist/artist.module';
 import { PlaylistModule } from './playlist/playlist.module';
+import { HistoryModule } from './history/history.module';
+import { ScriptModule } from './script/script.module';
 
 @Module({
   imports: [
@@ -30,6 +32,8 @@ import { PlaylistModule } from './playlist/playlist.module';
     PodcastModule,
     ArtistModule,
     PlaylistModule,
+    HistoryModule,
+    ScriptModule,
     
   ],
   controllers: [AppController],

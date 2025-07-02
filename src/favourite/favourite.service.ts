@@ -126,6 +126,37 @@ export class FavouriteService {
     const { favourite } = await this.getUserAndFavourite(userUuid);
     return favourite.podCasts.includes(trackId);
   }
+
+  async addArtistToFavourite(userUuid: string, artistId: number): Promise<{ message: string }> {
+    // Reuse the checkArtistInFavourite method to determine if the artist is already in favourites
+    const isArtistInFavourite = await this.checkArtistInFavourite(userUuid, artistId);
+
+    const { favourite } = await this.getUserAndFavourite(userUuid);
+
+    let updatedFavourite;
+    if (isArtistInFavourite) {
+      // Remove the artist if it is already in favourites
+      updatedFavourite = await this.favouriteModel.findByIdAndUpdate(
+        favourite._id,
+        { $pull: { artists: artistId } },
+        { new: true }
+      );
+      return { message: `Artist with artistId ${artistId} removed from favourites` };
+    } else {
+      // Add the artist if it is not in favourites
+      updatedFavourite = await this.favouriteModel.findByIdAndUpdate(
+        favourite._id,
+        { $addToSet: { artists: artistId } },
+        { new: true }
+      );
+      return { message: `Artist with artistId ${artistId} added to favourites` };
+    }
+  }
+
+  async checkArtistInFavourite(userUuid: string, artistId: number): Promise<boolean> {
+    const { favourite } = await this.getUserAndFavourite(userUuid);
+    return favourite.artists.includes(artistId);
+  }
 }
 
 

@@ -33,32 +33,21 @@ async getEpisodesByFeedUrl(@Query('feedUrl') feedUrl: string): Promise<any[]> {
   return episodes; 
 }
 
-
-  @Get()
-  findAll() {
-    return this.podcastService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.podcastService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePodcastDto: UpdatePodcastDto) {
-    return this.podcastService.update(+id, updatePodcastDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.podcastService.remove(+id);
-  }
   @Get('single/:id')
   getPodcastById(@Param('id') id: number): Promise<Podcast> {
     return this.podcastService.getPodcastById(id);}
   @Get('favourite/:uuid')
   getAllFavouritePodcasts(@Param('uuid') uuid: string) {
     return this.podcastService.getAllFavouritePodcasts(uuid);
+  }
+  @Get('search')
+  async searchPodcasts(@Query('q') term: string) {
+    console.log('Search term:', term);
+    if (!term || term.trim() === '') {
+      return { results: [], message: 'Search term is empty' };
+    }
+
+    return await this.podcastService.searchPodcastsByName(term);
   }
 
 }
